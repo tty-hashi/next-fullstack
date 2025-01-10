@@ -57,6 +57,7 @@ export async function POST(req: Request) {
         data: {
           clerkId: evt.data.id,
           // email: JSON.parse(body).data.email_address,
+          id: evt.data.id,
           username:
             JSON.parse(body).data.username ||
             `${JSON.parse(body).data.last_name}${JSON.parse(body).data.first_name}`,
