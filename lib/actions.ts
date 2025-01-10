@@ -3,11 +3,18 @@ import prisma from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 import { z } from 'zod'
 
-export const addPostAction = async (formData: FormData) => {
+type State = {
+  error?: string | undefined
+  success: boolean
+}
+
+export const addPostAction = async (prevState: State, formData: FormData): Promise<State> => {
   try {
     const { userId } = auth()
 
-    if (userId === null) return
+    if (userId === null) {
+      return { error: 'ユーザーが存在しません', success: false }
+    }
     const postText = (formData.get('post') as string) || ''
     const postTextSchema = z
       .string()
