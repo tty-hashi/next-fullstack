@@ -1,7 +1,6 @@
 import React from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { HeartIcon, MessageCircleIcon, Share2Icon, ClockIcon } from './Icons'
+import { ClockIcon } from './Icons'
 import PostInteraction from './PostInteraction'
 
 type Props = {
@@ -47,7 +46,11 @@ const Post: React.FC<Props> = ({ post }) => {
         <p>{post.content}</p>
       </div>
       <div className='flex items-center justify-between mt-4'>
-        <PostInteraction />
+        <PostInteraction
+          postId={post.id}
+          initialLikes={post.likes.map((like) => like.userId)}
+          commentCount={post._count.replies}
+        />
         <div className='flex items-center gap-2 text-muted-foreground'>
           <ClockIcon className='h-5 w-5' />
           <span>{post.createdAt.toLocaleString()}</span>
