@@ -1,8 +1,7 @@
-// components/PostList.tsx
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { HeartIcon, MessageCircleIcon, Share2Icon, ClockIcon } from './Icons'
-import prisma from '@/lib/prisma'
+import { postDataFetcher } from '@/lib/postDataFetcher'
 import { auth } from '@clerk/nextjs/server'
 
 export default async function PostList() {
@@ -10,33 +9,11 @@ export default async function PostList() {
 
   if (userId === null) return
 
-  let posts = await prisma.post.findMany({
-    where: {
-      authorId: {
-        in: [userId],
-      },
-    },
-    include: {
-      author: true,
-      likes: {
-        select: {
-          userId: true,
-        },
-      },
-      _count: {
-        select: {
-          replies: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+  const posts = await postDataFetcher(userId)
 
   return (
     <div className='space-y-4'>
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <div key={post.id} className='bg-white dark:bg-gray-800 rounded-lg shadow-md p-4'>
           <div className='flex items-center gap-4 mb-4'>
             <Avatar className='w-10 h-10'>
