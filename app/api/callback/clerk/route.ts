@@ -56,11 +56,8 @@ export async function POST(req: Request) {
       await prisma.user.create({
         data: {
           clerkId: evt.data.id,
-          // email: JSON.parse(body).data.email_address,
           id: evt.data.id,
-          username:
-            JSON.parse(body).data.username ||
-            `${JSON.parse(body).data.last_name}${JSON.parse(body).data.first_name}`,
+          username: JSON.parse(body).data.username,
           image: JSON.parse(body).data.image_url || '',
         },
       })
@@ -79,9 +76,7 @@ export async function POST(req: Request) {
           clerkId: evt.data.id,
         },
         data: {
-          username:
-            JSON.parse(body).data.username ||
-            `${JSON.parse(body).data.last_name}${JSON.parse(body).data.first_name}`,
+          username: JSON.parse(body).data.username,
           image: JSON.parse(body).data.image_url,
         },
       })

@@ -1,6 +1,7 @@
 'use server'
 import prisma from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 type State = {
@@ -29,6 +30,8 @@ export const addPostAction = async (prevState: State, formData: FormData): Promi
         authorId: userId,
       },
     })
+    // Post を追加した後、キャッシュを再構築する
+    revalidatePath('/')
     return { error: undefined, success: true }
   } catch (error) {
     if (error instanceof z.ZodError) {
