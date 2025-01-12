@@ -34,7 +34,7 @@ const Post: React.FC<Props> = ({ post }) => {
     <div className='bg-white dark:bg-gray-800 rounded-lg shadow-md p-4'>
       <div className='flex items-center gap-4 mb-4'>
         <Avatar className='w-10 h-10'>
-          <AvatarImage src='/placeholder-user.jpg' />
+          <AvatarImage src={post.author.image || '/placeholder-user.jpg'} />
           <AvatarFallback>AC</AvatarFallback>
         </Avatar>
         <div>
