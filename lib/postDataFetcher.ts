@@ -1,13 +1,20 @@
 import prisma from '@/lib/prisma'
-import { auth } from '@clerk/nextjs/server'
 
 export const postDataFetcher = async (userId: string) => {
   if (userId === null) return
-
+  const following = await prisma.follow.findMany({
+    where: {
+      followerId: userId,
+    },
+    select: {
+      followingId: true,
+    },
+  })
+  const followingIds = following.map((f) => f.followingId)
   const posts = await prisma.post.findMany({
     where: {
       authorId: {
-        in: [userId],
+        in: [userId, ...followingIds],
       },
     },
     include: {
