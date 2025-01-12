@@ -45,10 +45,17 @@ export default function PostInteraction({ postId, initialLikes, commentCount }: 
     <div className='flex items-center '>
       <form action={handleLikeSubmit} method='post'>
         <Button variant='ghost' size='icon'>
-          <HeartIcon className='h-5 w-5 text-muted-foreground' />
+          <HeartIcon
+            className={`h-5 w-5 ${
+              optimisticLike.isLiked ? 'text-destructive' : 'text-muted-foreground'
+            }`}
+            fill={optimisticLike.isLiked ? 'currentColor' : 'none'}
+          />
         </Button>
       </form>
-      <span className='-ml-1'>{optimisticLike.likeCount}</span>
+      <span className={`-ml-1 ${optimisticLike.isLiked ? 'text-destructive' : ''}`}>
+        {optimisticLike.likeCount}
+      </span>
       <Button variant='ghost' size='icon'>
         <MessageCircleIcon className='h-5 w-5 text-muted-foreground' />
       </Button>
