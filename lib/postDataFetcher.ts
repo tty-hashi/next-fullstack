@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 
-export const postDataFetcher = async (userId: string) => {
+export const postDataFetcher = async (userId: string, username?: string) => {
   if (userId === null) return
   const following = await prisma.follow.findMany({
     where: {
@@ -14,7 +14,7 @@ export const postDataFetcher = async (userId: string) => {
   const posts = await prisma.post.findMany({
     where: {
       authorId: {
-        in: [userId, ...followingIds],
+        in: username ? [userId] : [userId, ...followingIds],
       },
     },
     include: {
