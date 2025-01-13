@@ -32,6 +32,8 @@ const FollowButton: React.FC<Props> = ({ userId, isCurrentUser, isFollowing }) =
   }
 
   const handleFollowAction = async () => {
+    if (isCurrentUser) return
+
     try {
       andOptimisticFollow()
       await followAction(userId)
